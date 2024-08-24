@@ -10,7 +10,7 @@ function App() {
       <Header />
       <Container pt="6" maxW="container.md">
         <Routes>
-          <Route path="/employees/:id" element={<Employee />} />
+          <Route path="employees/:id" element={<Employee />} />
         </Routes>
       </Container>
     </>
