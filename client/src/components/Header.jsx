@@ -4,6 +4,8 @@ import { SongRiverLogo } from "./SongRiverLogo";
 
 import { SearchInput } from "./SearchInput"
 
+import { Link } from "react-router-dom";
+
 export function Header() {
   return (
     <HStack
@@ -16,9 +18,11 @@ export function Header() {
       w="100vw"
     >
       <SongRiverLogo size="5xl" />
-      <Heading as="h1" size="lg">
-        Employee&nbsp;&nbsp;Directory
-      </Heading>
+      <Link to="/">
+        <Heading as="h1" size="lg">
+          Employee&nbsp;&nbsp;Directory
+        </Heading>
+      </Link>
       <SearchInput />
     </HStack>
   );

@@ -1,24 +1,25 @@
-import { useSearchParams } from 'react-router-dom';
 import { IconButton, Input, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/react';
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
+import { useSearchTerm } from '../hooks/useSearchTerm';
+import { useNavigate } from 'react-router';
 
 function SearchInput() {
-    const [searchParams, setSearchParams] = useSearchParams({ q: "" });
-    const searchQuery = searchParams.get("q") || "";
+    const [searchTerm, setSearchTerm] = useSearchTerm();
 
-    const handleChange = (evt) => {
-        const newQuery = evt.target.value;
-        setSearchParams({ q: newQuery });
-    }
-    const clearInput = () => setSearchParams({ q: "" });
+    const handleChange = (evt) => setSearchTerm(evt.target.value);
+    const clearInput = () => setSearchTerm("");
+
+    const navigate = useNavigate();
+    const handleFocus = () => navigate(`/?q=${searchTerm}`);
+
 
     return (
-        <InputGroup>
+        <InputGroup onFocus={handleFocus}>
             <InputLeftElement pointerEvents="none">
                 <SearchIcon />
             </InputLeftElement>
             <Input
-                value={searchQuery}
+                value={searchTerm}
                 onChange={handleChange}
                 placeholder="search" />
             <InputRightElement>

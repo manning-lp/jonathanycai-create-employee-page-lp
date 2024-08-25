@@ -1,14 +1,13 @@
-import { useSearchParams } from 'react-router-dom';
 import { useQuery } from "@tanstack/react-query";
 import { Heading, SimpleGrid } from '@chakra-ui/react'
 import { EmployeeResult } from './EmployeeResult';
+import { useSearchTerm } from '../hooks/useSearchTerm';
 
 function SearchResults() {
-    const [searchParams] = useSearchParams();
-    const searchQuery = searchParams.get("q") || "";
+    const [searchTerm] = useSearchTerm();
 
-    const { data: searchResults, isLoading } = useQuery(["search", searchQuery], async () => {
-        const response = await fetch(`http://localhost:3030/employees?q=${searchQuery}`);
+    const { data: searchResults, isLoading } = useQuery(["search", searchTerm], async () => {
+        const response = await fetch(`http://localhost:3030/employees?q=${searchTerm}`);
         return response.json();
     });
 
@@ -17,7 +16,7 @@ function SearchResults() {
     return (
         <>
             <Heading size="md" pb={4}>
-                {searchQuery ? "Search Results" : "All Employees"} ({searchResults.length})
+                {searchTerm ? "Search Results" : "All Employees"} ({searchResults.length})
             </Heading>
             <SimpleGrid columns={2} spacing={4}>
                 {searchResults.map((employee) => (
