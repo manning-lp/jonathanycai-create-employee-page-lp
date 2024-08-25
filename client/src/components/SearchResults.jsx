@@ -8,7 +8,7 @@ function SearchResults() {
     const searchQuery = searchParams.get("q") || "";
 
     const { data: searchResults, isLoading } = useQuery(["search", searchQuery], async () => {
-        const response = await fetch(`http://localhost:3030/employees/${searchQuery}`);
+        const response = await fetch(`http://localhost:3030/employees?q=${searchQuery}`);
         return response.json();
     });
 

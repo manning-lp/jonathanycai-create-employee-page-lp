@@ -24,9 +24,9 @@ function Employee() {
                     <Text fontSize="2xl">{data.lastName}</Text>
                 </HStack>
                 <HStack align="baseline">
-                    <Text fontSize="xl" text-align="right">{data.jobTitle}</Text>
+                    <Text fontSize="xl" textAlign="right">{data.jobTitle}</Text>
                     <Text>|</Text>
-                    <Text fontSize="med" text-align="right">{data.teamName}</Text>
+                    <Text fontSize="md" textAlign="right">{data.teamName}</Text>
                 </HStack>
             </VStack>
 

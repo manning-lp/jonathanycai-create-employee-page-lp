@@ -1,8 +1,8 @@
 import { Container } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
 
-import { Header } from "./components/Header";
 import { Employee } from "./components/Employee";
+import { Header } from "./components/Header";
 import { SearchResults } from "./components/SearchResults";
 
 function App() {
