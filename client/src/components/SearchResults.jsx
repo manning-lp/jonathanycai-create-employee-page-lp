@@ -6,10 +6,12 @@ import { useSearchTerm } from '../hooks/useSearchTerm';
 function SearchResults() {
     const [searchTerm] = useSearchTerm();
 
-    const { data: searchResults, isLoading } = useQuery(["search", searchTerm], async () => {
+    const { data: searchResults, isLoading, isError } = useQuery(["search", searchTerm], async () => {
         const response = await fetch(`http://localhost:3030/employees?q=${searchTerm}`);
         return response.json();
     });
+
+    if (isLoading || isError) return null;
 
     return (
         <>

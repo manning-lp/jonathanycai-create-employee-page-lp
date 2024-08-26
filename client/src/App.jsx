@@ -5,6 +5,7 @@ import { Employee } from "./components/Employee";
 import { Header } from "./components/Header";
 import { SearchResults } from "./components/SearchResults";
 import { Loading } from "./components/Loading";
+import { ToastContainer } from "./components/Toast";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<SearchResults />} />
         </Routes>
       </Container>
+      <ToastContainer />
     </>
   );
 }

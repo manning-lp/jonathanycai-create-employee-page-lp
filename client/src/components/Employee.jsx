@@ -3,10 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 function Employee() {
     const { id } = useParams();
-    const { isLoading, data } = useQuery(["employee", id], async () => {
+    const { isLoading, isError, data } = useQuery(["employee", id], async () => {
         const employeeData = await fetch(`http://localhost:3030/employees/${id}`);
         return employeeData.json();
     });
+
+    if (isLoading || isError) return null;
 
     return (
         <HStack align="center" spacing={10} justify="center">
