@@ -11,8 +11,6 @@ function SearchResults() {
         return response.json();
     });
 
-    if (isLoading) return "...Loading";
-
     return (
         <>
             <Heading size="md" pb={4}>

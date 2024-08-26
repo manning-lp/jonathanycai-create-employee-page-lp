@@ -8,8 +8,6 @@ function Employee() {
         return employeeData.json();
     });
 
-    if (isLoading) return <Text>Loading...</Text>;
-
     return (
         <HStack align="center" spacing={10} justify="center">
             <Image
