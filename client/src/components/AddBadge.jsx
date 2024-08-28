@@ -16,12 +16,16 @@ import {
 } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "./Toast";
 
 function AddBadge({ employee }) {
     const queryClient = useQueryClient();
     const [newBadgeId, setNewBadgeId] = useState();
+    const [badgeSelectionError, setBadgeSelectionError] = useState(false);
+
     const handleSelectChange = (evt) => {
         setNewBadgeId(evt.target.value);
+        setBadgeSelectionError(false);
     }
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -42,18 +46,42 @@ function AddBadge({ employee }) {
                 { method: `PATCH`, }
             )
             if (response.status >= 400) {
+                toast({
+                    title: "Failed to add a badge",
+                    description: response.statusText,
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
                 throw new Error(response.statusText);
             }
         },
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(["employee", employee.id.toString()])
+                queryClient.invalidateQueries(["employee", employee.id.toString()]);
+                toast({
+                    title: "Badge Added",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                })
             }
         }
     );
 
     const onSubmit = () => {
-        addBadge({ badgeId: newBadgeId, employeeId: employee.id });
+        if (!newBadgeId && newBadgeId !== 0) {
+            setBadgeSelectionError(true);
+        } else {
+            addBadge({ badgeId: newBadgeId, employeeId: employee.id });
+            setNewBadgeId(undefined);
+            onClose();
+        }
+    }
+
+    const onCancel = () => {
+        setNewBadgeId(undefined);
+        setBadgeSelectionError(false);
         onClose();
     }
 
@@ -77,6 +105,11 @@ function AddBadge({ employee }) {
                     <ModalHeader>Add New Badge</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
+                        {badgeSelectionError ? (
+                            <Text textAlign="center" color="red" fontWeight={800}>
+                                Please select badge
+                            </Text>
+                        ) : null}
                         <Select
                             placeholder="Select Badge"
                             onChange={handleSelectChange}
@@ -99,7 +132,7 @@ function AddBadge({ employee }) {
                         <Button colorScheme="blue" mr={3} onClick={onSubmit}>
                             Add badge
                         </Button>
-                        <Button variant="ghost" onClick={onClose}>
+                        <Button variant="ghost" onClick={onCancel}>
                             Cancel
                         </Button>
                     </ModalFooter>
