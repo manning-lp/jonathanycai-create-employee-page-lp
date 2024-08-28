@@ -14,11 +14,11 @@ import {
     VStack,
     Select,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 function AddBadge({ employee }) {
-
+    const queryClient = useQueryClient();
     const [newBadgeId, setNewBadgeId] = useState();
     const handleSelectChange = (evt) => {
         setNewBadgeId(evt.target.value);
@@ -36,7 +36,24 @@ function AddBadge({ employee }) {
         { select: alphabetSort }
     )
 
+    const { mutate: addBadge } = useMutation(
+        async ({ employeeId, badgeId }) => {
+            const response = await fetch(`http://localhost:3030/employees/${employeeId}/badges?badgeId=${badgeId}`,
+                { method: `PATCH`, }
+            )
+            if (response.status >= 400) {
+                throw new Error(response.statusText);
+            }
+        },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(["employee", employee.id.toString()])
+            }
+        }
+    );
+
     const onSubmit = () => {
+        addBadge({ badgeId: newBadgeId, employeeId: employee.id });
         onClose();
     }
 

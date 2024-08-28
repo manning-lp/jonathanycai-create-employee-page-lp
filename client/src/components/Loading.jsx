@@ -1,12 +1,13 @@
 import { Spinner } from "@chakra-ui/react"
-import { useIsFetching } from "@tanstack/react-query"
+import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 function Loading() {
     const isFetching = useIsFetching();
+    const isMutating = useIsMutating();
 
     return (
         <Spinner
-            z-index={1}
+            zIndex={1}
             pos="fixed"
             top={0}
             bottom={0}
@@ -14,7 +15,7 @@ function Loading() {
             right={0}
             margin="auto"
             size="xl"
-            display={isFetching > 0 ? "inherit" : "none"}
+            display={isFetching > 0 || isMutating > 0 ? "inherit" : "none"}
         />
     )
 }
