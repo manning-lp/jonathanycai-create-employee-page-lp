@@ -4,17 +4,21 @@ import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import { queryClient } from "../query-client";
 
-const AllTheProviders = ({ children }) => {
-    return (
-        <React.StrictMode>
-            <MemoryRouter>
-                <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-            </MemoryRouter>
-        </React.StrictMode>
-    )
-}
 
-const customRender = (ui, options) => render(ui, { wrapper: AllTheProviders, ...options });
+
+const customRender = (ui, options = {}) => {
+    const { initialEntries = ["/"] } = options;
+    const AllTheProviders = ({ children }) => {
+        return (
+            <React.StrictMode>
+                <MemoryRouter initialEntries={initialEntries}>
+                    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+                </MemoryRouter>
+            </React.StrictMode>
+        )
+    }
+    render(ui, { wrapper: AllTheProviders, ...options });
+}
 
 export * from "@testing-library/react";
 
