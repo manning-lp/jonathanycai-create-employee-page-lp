@@ -90,7 +90,7 @@ function AddBadge({ employee }) {
             <VStack>
                 <IconButton
                     onClick={onOpen}
-                    aria-label="add badge"
+                    aria-label="add new badge"
                     width="100px"
                     height="100px"
                     isRound
